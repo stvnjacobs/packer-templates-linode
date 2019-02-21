@@ -9,7 +9,7 @@ export LINODE_API_TOKEN=k33pItL1k3s3cr3t
 
 cp secret/variables.example.json secret/variables.json
 
-# edit variables
+# edit secret/variables.json
 
 packer build --var-file secret/variables.json debian9.json
 ```
