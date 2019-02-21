@@ -28,7 +28,7 @@
       "type": "shell",
       "inline": [
         "apt-get -y update && apt-get -y upgrade",
-        "adduser {{ user `user_name` }} --gecos 'First Last,RoomNumber,WorkPhone,HomePhone' --disabled-password",
+        "useradd -m -d /home/{{ user `user_name` }} -s /bin/bash {{ user `user_name` }}",
         "echo {{ user `user_name` }}:{{ user `user_pass` }} | chpasswd",
         "mkdir -p /home/{{ user `user_name` }}/.ssh",
         "wget -O /home/{{ user `user_name` }}/.ssh/authorized_keys {{ user `user_keys_url` }}",
