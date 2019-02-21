@@ -1,0 +1,41 @@
+{
+  "variables": {
+    "linode_token": "{{ env `LINODE_API_TOKEN` }}",
+    "user_name": "",
+    "user_pass": "",
+    "user_keys_url": ""
+  },
+  "sensitive-variables": [ "user_pass" ],
+  "builders": [
+    {
+      "type": "linode",
+      "linode_token": "{{ user `linode_token` }}",
+
+      "region": "us-east",
+      "swap_size": 256,
+      "image": "linode/debian9",
+      "instance_type": "g6-nanode-1",
+      "instance_label": "packer-debian9-{{ timestamp }}",
+
+      "image_label": "base/debian9",
+      "image_description": "packer-debian9",
+
+      "ssh_username": "root"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "apt-get -y update && apt-get -y upgrade",
+        "adduser {{ user `user_name` }} --gecos 'First Last,RoomNumber,WorkPhone,HomePhone' --disabled-password",
+        "echo {{ user `user_name` }}:{{ user `user_pass` }} | chpasswd",
+        "mkdir -p /home/{{ user `user_name` }}/.ssh",
+        "wget -O /home/{{ user `user_name` }}/.ssh/authorized_keys {{ user `user_keys_url` }}",
+        "chown -R {{ user `user_name` }}:{{ user `user_name` }} /home/{{ user `user_name` }}",
+        "chmod -R 0700 /home/{{ user `user_name` }}/.ssh",
+        "chmod 0600 /home/{{ user `user_name` }}/.ssh/authorized_keys"
+      ]
+    }
+  ]
+}
