@@ -2,7 +2,6 @@
   "variables": {
     "linode_token": "{{ env `LINODE_API_TOKEN` }}"
   },
-  "sensitive-variables": [ "user_pass" ],
   "builders": [
     {
       "type": "linode",
