@@ -7,9 +7,9 @@ Packer templates to build Linode images.
 ```sh
 export LINODE_API_TOKEN=k33pItL1k3s3cr3t
 
-cp secret/variables.example.json secret/variables.json
+cp secrets/variables.example.json secrets/variables.json
 
-# edit secret/variables.json
+# edit secrets/variables.json
 
-packer build --var-file secret/variables.json debian9.json
+packer build --var-file secrets/variables.json templates/user-debian9.json
 ```

@@ -1,2 +1,2 @@
-secret/*
-!secret/*.example.json
+secrets/*
+!secrets/*.example.json
