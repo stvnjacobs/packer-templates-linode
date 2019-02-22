@@ -1,0 +1,48 @@
+{
+  "variables": {
+    "linode_token": "{{ env `LINODE_API_TOKEN` }}"
+  },
+  "sensitive-variables": [ "user_pass" ],
+  "builders": [
+    {
+      "type": "linode",
+      "linode_token": "{{ user `linode_token` }}",
+
+      "region": "us-east",
+      "swap_size": 256,
+      "image": "linode/debian9",
+      "instance_type": "g6-nanode-1",
+      "instance_label": "packer-wordpress-debian9",
+
+      "image_label": "wordpress-debian9",
+      "image_description": "packer-debian9",
+
+      "ssh_username": "root"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "apt-get -y update && apt-get -y upgrade",
+        "apt-get install -y curl mariadb-server nginx php-curl php-fpm php-gd php-mbstring php-mysql php-xml php-xmlrpc",
+        "wget -O /tmp/wordpress.tar.gz https://wordpress.org/latest.tar.gz",
+        "mkdir -p /srv/http",
+        "tar -xzvf /tmp/wordpress.tar.gz -C /srv/http",
+        "chown -R www-data:www-data /srv/http/wordpress"
+      ]
+    }, {
+      "type": "file",
+      "source": "files/wordpress/wp.nginx.conf",
+      "destination": "/etc/nginx/sites-available/wp.conf"
+    }, {
+      "type": "shell",
+      "inline": [
+        "ln -s /etc/nginx/sites-available/wp.conf /etc/nginx/sites-enabled/wp.conf",
+	"rm /etc/nginx/sites-enabled/default",
+        "systemctl enable nginx",
+        "systemctl restart nginx"
+      ]
+    }
+  ]
+}
