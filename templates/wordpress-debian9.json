@@ -38,7 +38,7 @@
       "type": "shell",
       "inline": [
         "ln -s /etc/nginx/sites-available/wp.conf /etc/nginx/sites-enabled/wp.conf",
-	"rm /etc/nginx/sites-enabled/default",
+        "rm /etc/nginx/sites-enabled/default",
         "systemctl enable nginx",
         "systemctl restart nginx"
       ]
