@@ -6,10 +6,17 @@ Packer templates to build Linode images.
 
 ```sh
 export LINODE_API_TOKEN=k33pItL1k3s3cr3t
+```
 
-cp secrets/variables.example.json secrets/variables.json
+Depending on the image you are building, there may be `files` or `secrets`.
+These are stored under their named subdirectory under `files` or `secrets`.
 
-# edit secrets/variables.json
+For `secrets`, there are example files that you can copy and modify.
 
-packer build --var-file secrets/variables.json templates/user-debian9.json
+```sh
+cp secrets/user/variables.example.json secrets/user/variables.json
+
+# edit secrets/user/variables.json
+
+packer build --var-file secrets/user/variables.json templates/user/debian9.json
 ```
